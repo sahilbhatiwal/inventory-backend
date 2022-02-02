@@ -9,7 +9,7 @@ const {
 const router = express.Router();
 
 // get all chemical
-router.get("/chemicals", getChemicals);
+router.get("/chemical", getChemicals);
 
 // get chemical by id
 router.get("/chemical/:id", getChemicalbyId);

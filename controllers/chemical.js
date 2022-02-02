@@ -2,8 +2,8 @@
 const Chemical = require("../models/chemical");
 
 // get all chemicals
-function getChemicals(req, res) {
-  Chemical.find()
+const getChemicals = async(req, res)=> {  
+  await Chemical.find()
     .then((data) => {
       res.status(200).json({
         success: true,
@@ -20,9 +20,9 @@ function getChemicals(req, res) {
 }
 
 // get chemicals by id
-function getChemicalbyId(req, res) {
+const getChemicalbyId = async(req, res)=> {
   const id = req.params.id;
-  Chemical.findById(id)
+  await Chemical.findById(id)
     .then((data) => {
       if (data) {
         res.status(200).json({
@@ -44,33 +44,32 @@ function getChemicalbyId(req, res) {
       });
     });
 }
+
 // update chemicals by id
-function updateChemicalbyId(req, res) {
+
+const updateChemicalbyId = async (req, res) => {
   const id = req.params.id;
   const { quantity } = req.body;
-
   if (!quantity) {
     return res.status(400).json({
       success: false,
-
       message: "send quantity",
     });
   }
-
-  Chemical.findByIdAndUpdate(id, {
-    $inc: { quantity },
+  await Chemical.findByIdAndUpdate(id, {
+    $inc: { quantity }
   })
     .then((data) => {
       if (data) {
+        console.log(data)
         return res.status(200).json({
           success: true,
           message: "chemical updated",
-          data: data,
+          data: data
         });
       } else {
         return res.status(400).json({
           success: false,
-
           message: "Chemical not exists",
         });
       }
@@ -98,7 +97,6 @@ function deleteChemicalbyId(req, res) {
       } else {
         return res.status(400).json({
           success: false,
-
           message: "Chemical not exists",
         });
       }
@@ -113,7 +111,7 @@ function deleteChemicalbyId(req, res) {
 }
 
 // add a chemial
-function addChemical(req, res) {
+const addChemical = async (req, res) => {
   // get chemicaldetail form body
   const { name, quantity } = req.body;
 
@@ -123,8 +121,7 @@ function addChemical(req, res) {
       message: "please send name and quantity",
     });
   }
-
-  Chemical.create({
+  await Chemical.create({
     name,
     quantity,
   })

@@ -1,18 +1,22 @@
 const mongoose = require("mongoose");
 
 // defination of schema
-const chemicalSchema = new mongoose.Schema(
+const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: [true, "please add a name"],
       trim: true,
-      // unique: true,
     },
-    quantity: {
+    age: {
       type: Number,
+    },
+    phone: {
+      type: String,
       required: true,
-      default: 0,
+      unique:true,
+      minlength:10,
+      maxlength:10
     },
   },
   {
@@ -23,4 +27,4 @@ const chemicalSchema = new mongoose.Schema(
 // const chemicalModel = mongoose.model('Chemical',chemicalSchema);
 // module.exports = chemicalModel;
 //or
-module.exports = mongoose.model("Chemical", chemicalSchema);
+module.exports = mongoose.model("User", userSchema);
