@@ -12,7 +12,7 @@ const testSchema = new mongoose.Schema(
     price: {
       type: Number,
       required: true,
-    },
+    },  
     chemicalsRequired: [
       {
         quantity: {
@@ -23,7 +23,6 @@ const testSchema = new mongoose.Schema(
           type: mongoose.Schema.Types.ObjectId,
           ref: "Chemical",
           required: true,
-          // unique: true,
         },
       },
     ],

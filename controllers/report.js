@@ -70,6 +70,8 @@ exports.getReportbyId = (req, res) => {
     });
 };
 
+//GET REPORT BY USER ID
+
 exports.getReportByUserId = async (req, res) => {
   const id = req.params.id;
   try {
@@ -89,18 +91,17 @@ exports.getReportByUserId = async (req, res) => {
   }
 };
 
-// get report by user name
+// get report by user PHONE
 
 exports.getReportByUserName = async (req, res) => {
-  const username = req.query.name;
-  console.log(username);
+  const phone = req.query.phone;
   try {
-    const user = await userModel.findOne({ name: username });
+    const user = await userModel.find({ phone: phone });
     console.log(user);
     if (!user) {
       return res.status(400).json({
         success: false,
-        message: "user does not exists",
+        message: "PHONE NO. does not exists",
       });
     }
     const id = user._id.toString();
@@ -120,15 +121,3 @@ exports.getReportByUserName = async (req, res) => {
     });
   }
 };
-
-//update reports
-// exports.updateReport = (req,res )=>{
-
-//   const testDetails = req.body;
-//   if(!body){
-//     return res.status(400).json({
-//       success: false,
-//       message: "please enter the test to update"
-//     });
-//   }
-// }
