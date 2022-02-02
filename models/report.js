@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const ChemicalModel = require("./chemical");
 // defination of schema
+
 const reportSchema = new mongoose.Schema(
   {
     user: {
@@ -21,54 +22,62 @@ const reportSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-// pre save task
 
-async function calculateAmount() {
-  let price = 0;
-  await this.populate("testsPerformed", "name price");
-  this.testsPerformed.forEach((data) => {
-    // console.log(data);
-    price += data.price;
-  });
-  this.totalAmount = price;
+async function preSaveMiddleWare(error, doc, next) {
+  // check if chemicals are present
+  try {
+    await this.populate("testsPerformed", "chemicalsRequired name price");
+
+    // for (const test of this.testsPerformed) {
+    //   for (const chem of test.chemicalsRequired) {
+    //     const data = await ChemicalModel.findById(chem.chemical.toString());
+    //     console.log(data.name);
+    //     if (data.quantity < chem.quantity) {
+    //       console.log(`Not sufficient qunatitiy of chemcial ${data.name}`);
+    //       return next(
+    //         new Error(`Not sufficient qunatitiy of chemcial ${data.name}`)
+    //       );
+    //     }
+    //   }
+    // }
+
+    let price = 0;
+    this.testsPerformed.forEach((data) => {
+      // console.log(data);
+      price += data.price;
+    });
+    this.totalAmount = price;
+    console.log(this.totalAmount);
+
+    // perform test
+    // await this.testsPerformed.forEach(async (test) => {
+    //   await test.chemicalsRequired.forEach(async (chem) => {
+    //     const data = await ChemicalModel.findByIdAndUpdate(
+    //       chem.chemical.toString(),
+    //       {
+    //         $inc: { quantity: -1 * chem.quantity },
+    //       }
+    //     );
+    //     console.log("data", data);
+    //   });
+    // });
+
+    for (const test of this.testsPerformed) {
+      for (const chem of test.chemicalsRequired) {
+        await ChemicalModel.findByIdAndUpdate(
+          chem.chemical.toString(),
+          {
+            $inc: { quantity: -1 * chem.quantity },
+          }
+        );
+      }
+    }
+  } catch (error) {
+    console.log(`inside catch ${error}`);
+    return next(error);
+  }
 }
 
-const performTest = async () => {
-  // await this.populate("testsPerformed", "chemicalsRequired");
-  this.testsPerformed.forEach(async (test) => {
-    // console.log(test);
-    await test.chemicalsRequired.forEach(async (chem) => {
-      // await chem.chemical.update({
-      //   $inc:{quantity: -1*chem.quantity},
-      // })
-      // console.log(chem);
-      const data = await ChemicalModel.findByIdAndUpdate(
-        chem.chemical.toString(),
-        {
-          $inc: { quantity: -1 * chem.quantity },
-        }
-      );
-      // console.log(data);
-    });
-  });
-};
-
-reportSchema.pre("save", async function (next) {
-
-  await this.populate("testsPerformed", "chemicalsRequired");
-  await this.testsPerformed.forEach(async (test) => {
-    
-    await test.chemicalsRequired.forEach(async (chem) => {
-     
-      console.log(chem);
-      const data = await ChemicalModel.findById(chem.chemical.toString());
-      if (!data) throw new Error("Chemcial not found");
-      console.log(data.name);
-      if (data.quantity < chem.quantity)
-        next(new Error(`Not sufficient qunatitiy of chemcial ${data.name}`));
-      // console.log(data);
-    });
-  });
-});
+reportSchema.pre("save", preSaveMiddleWare);
 
 module.exports = mongoose.model("Report", reportSchema);

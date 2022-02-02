@@ -86,27 +86,3 @@ exports.getUserId = (req, res) => {
       });
     });
 };
-// //delete user by id
-// exports.deleteUser = (req, res) => {
-//   const id = req.params.id;
-//   if (!id)
-//     return res.status(400).json({
-//       success: false,
-//       message: "please enter the id",
-//     });
-//   userModel
-//     .findByIdAndDelete(id)
-//     .then((data) => {
-//       res.status(200).json({
-//         success: true,
-//         message: "data deleted successfully",
-//         data: data,
-//       });
-//     })
-//     .catch((err) => {
-//       res.status(400).json({
-//         success: false,
-//         message: `some error occured ${err}`,
-//       });
-//     });
-// };
