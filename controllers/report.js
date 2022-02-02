@@ -96,7 +96,7 @@ exports.getReportByUserId = async (req, res) => {
 exports.getReportByUserName = async (req, res) => {
   const phone = req.query.phone;
   try {
-    const user = await userModel.find({ phone: phone });
+    const user = await userModel.findOne({ phone: phone });
     console.log(user);
     if (!user) {
       return res.status(400).json({
@@ -114,7 +114,7 @@ exports.getReportByUserName = async (req, res) => {
       data,
       user: user,
     });
-  } catch (error) {
+  } catch (err) {
     res.status(400).json({
       success: false,
       message: `there was some error : ${err.message}`,

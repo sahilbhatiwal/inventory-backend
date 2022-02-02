@@ -23,57 +23,42 @@ const reportSchema = new mongoose.Schema(
   }
 );
 
-async function preSaveMiddleWare(error, doc, next) {
+async function preSaveMiddleWare(next) {
   // check if chemicals are present
   try {
-    await this.populate("testsPerformed", "chemicalsRequired name price");
+    const tests = await this.populate(
+      "testsPerformed",
+      "chemicalsRequired name price"
+    );
 
-    // for (const test of this.testsPerformed) {
-    //   for (const chem of test.chemicalsRequired) {
-    //     const data = await ChemicalModel.findById(chem.chemical.toString());
-    //     console.log(data.name);
-    //     if (data.quantity < chem.quantity) {
-    //       console.log(`Not sufficient qunatitiy of chemcial ${data.name}`);
-    //       return next(
-    //         new Error(`Not sufficient qunatitiy of chemcial ${data.name}`)
-    //       );
-    //     }
-    //   }
-    // }
+    if (!tests.testsPerformed.length)
+      throw new Error("please add atleast one valid test");
+
+      // validate the chemical required
+    for (const test of this.testsPerformed) {   // traverse on the testsperformed
+    
+      for (const chem of test.chemicalsRequired) { // travese on the chemical required for each test
+        const data = await ChemicalModel.findById(chem.chemical.toString());
+        if (data.quantity < chem.quantity) {
+            throw new Error(`Not sufficient qunatitiy of chemcial ${data.name}`)
+        }
+      }
+    }
 
     let price = 0;
     this.testsPerformed.forEach((data) => {
-      // console.log(data);
       price += data.price;
     });
     this.totalAmount = price;
-    console.log(this.totalAmount);
-
-    // perform test
-    // await this.testsPerformed.forEach(async (test) => {
-    //   await test.chemicalsRequired.forEach(async (chem) => {
-    //     const data = await ChemicalModel.findByIdAndUpdate(
-    //       chem.chemical.toString(),
-    //       {
-    //         $inc: { quantity: -1 * chem.quantity },
-    //       }
-    //     );
-    //     console.log("data", data);
-    //   });
-    // });
 
     for (const test of this.testsPerformed) {
       for (const chem of test.chemicalsRequired) {
-        await ChemicalModel.findByIdAndUpdate(
-          chem.chemical.toString(),
-          {
-            $inc: { quantity: -1 * chem.quantity },
-          }
-        );
+        await ChemicalModel.findByIdAndUpdate(chem.chemical.toString(), {
+          $inc: { quantity: -1 * chem.quantity },
+        });
       }
     }
   } catch (error) {
-    console.log(`inside catch ${error}`);
     return next(error);
   }
 }

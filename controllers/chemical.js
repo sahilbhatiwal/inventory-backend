@@ -71,6 +71,7 @@ const updateChemicalbyId = async (req, res) => {
     const data = await Chemical.findByIdAndUpdate(id, {
       $inc: { quantity },
     });
+    // const chem = await data.save();
     if (!data) {
       throw new Error("id does not exist");
     }
