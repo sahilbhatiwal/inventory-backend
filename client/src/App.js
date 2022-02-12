@@ -2,7 +2,7 @@ import "./App.css";
 import React from "react";
 // import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Admin, Resource } from "react-admin";
-import { dataProvider } from "./utils/dataprovider";
+import  dataProvider  from "./utils/dataprovider";
 
 import chemicalList from "./components/chemical/chemicalList";
 import createChemical from "./components/chemical/createChemical";

@@ -1,7 +1,7 @@
 const { HttpError }  = require("react-admin")
 const axios = require("axios");
 const baseUrl = "/api";
-exports.dataProvider = {
+const dataProvider = {
   create: (resource, params) => {
     const url = `${baseUrl}/${resource}`;
     return axios.post(url, params.data).then((response) => {
@@ -100,3 +100,4 @@ exports.dataProvider = {
       });
   },
 };
+export default dataProvider;
