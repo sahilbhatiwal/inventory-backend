@@ -134,7 +134,7 @@ const addChemical = async (req, res) => {
       res.status(200).json({
         success: true,
         message: "Chemical added",
-        chemical: data,
+        data: data,
       });
     })
     .catch((err) => {

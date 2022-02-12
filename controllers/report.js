@@ -31,7 +31,7 @@ exports.getAllReports = (req, res) => {
   reportModel
     .find()
     .populate("user", "name phone")
-    .populate("testsPerformed", "name")
+    .populate("testsPerformed", "name price")
     .then((data) => {
       res.status(200).json({
         success: true,
@@ -54,7 +54,7 @@ exports.getReportbyId = (req, res) => {
   reportModel
     .findById(id)
     .populate("user", "name phone")
-    .populate("testsPerformed", "name")
+    .populate("testsPerformed", "name price")
     .then((data) => {
       res.status(200).json({
         success: true,
@@ -78,7 +78,7 @@ exports.getReportByUserId = async (req, res) => {
     const data = await reportModel
       .find({ user: id })
       .populate("user", "name phone")
-      .populate("testsPerformed", "name");
+      .populate("testsPerformed", "name price");
     res.status(200).json({
       success: true,
       data,
@@ -108,7 +108,7 @@ exports.getReportByUserName = async (req, res) => {
     const data = await reportModel
       .find({ user: id })
       .populate("user", "name phone")
-      .populate("testsPerformed", "name");
+      .populate("testsPerformed", "name price");
     res.status(200).json({
       success: true,
       data,
