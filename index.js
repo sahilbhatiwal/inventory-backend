@@ -4,6 +4,7 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 3001;
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
 require("./config/db");
 // import all the routes
@@ -16,6 +17,7 @@ const reportRoutes = require("./routes/report");
 // middlewares
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
 // routes
 // app.use("/api", learningRoutes);
