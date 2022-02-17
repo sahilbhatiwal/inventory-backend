@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema(
     ],
     password:{
 
-      select: false,
+      // select: false,
       type: String,
       minlength:8,
       required: true,
@@ -55,7 +55,9 @@ userSchema.pre("save",async function(next){
 
 // check if password is valid or not 
 userSchema.methods.authenticate = async function (password){
-
+  
+  // await this.select('+password').exec();
+  console.log(this.password);
   return await bcrypt.compare(password,this.password);
 }
 

@@ -91,6 +91,7 @@ exports.getUserId = (req, res) => {
 
 exports.login = async (req, res) => {
   const { email, password } = req.body;
+  console.log(email,password);
   try {
 
     if(!email || !password)
