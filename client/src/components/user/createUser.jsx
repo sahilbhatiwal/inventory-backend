@@ -6,6 +6,8 @@ export default function createUser(props) {
       <SimpleForm>
         <TextInput source="name" />
         <TextInput source="phone" />
+        <TextInput source="email" />
+        <TextInput source="password" />
       </SimpleForm>
     </Create>
   );

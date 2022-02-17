@@ -24,7 +24,12 @@ const userSchema = new mongoose.Schema(
       required:  true,
       unique: true,
     },
+    reports:[
+      
+    ],
     password:{
+
+      select: false,
       type: String,
       minlength:8,
       required: true,

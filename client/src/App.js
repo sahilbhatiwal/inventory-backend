@@ -3,6 +3,7 @@ import React from "react";
 // import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Admin, Resource } from "react-admin";
 import  dataProvider  from "./utils/dataprovider";
+import authProvider from "./utils/authProvider";
 
 import chemicalList from "./components/chemical/chemicalList";
 import createChemical from "./components/chemical/createChemical";
@@ -28,7 +29,7 @@ const theme = createTheme({
 });
 function App() {
   return (
-    <Admin dataProvider={dataProvider} theme={theme}>
+    <Admin dataProvider={dataProvider} theme={theme} authProvider={authProvider}>
       <Resource
         name="chemical"
         list={chemicalList}

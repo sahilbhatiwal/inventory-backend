@@ -1,10 +1,15 @@
 const { HttpError }  = require("react-admin")
 const axios = require("axios");
+const config ={
+  headers:{
+    Authorization: "Bearer "+ localStorage.getItem("jwt")
+  }
+}
 const baseUrl = "/api";
 const dataProvider = {
   create: (resource, params) => {
     const url = `${baseUrl}/${resource}`;
-    return axios.post(url, params.data).then((response) => {
+    return axios.post(url, params.data,config).then((response) => {
       const data = response.data.data;
       return { data: { ...data, id: data._id } };
     }).catch((err)=>{
@@ -17,7 +22,7 @@ const dataProvider = {
   update: (resource, params) => {
     const url = `${baseUrl}/${resource}/${params.id}`;
     return axios
-      .put(url, params.data)
+      .put(url, params.data,config)
       .then((response) => {
         const data = response.data.data;
         return { data: { ...data, id: data._id } };
@@ -31,7 +36,7 @@ const dataProvider = {
   delete: (resource, params) => {
     const url = `${baseUrl}/${resource}/${params.id}`;
     return axios
-      .delete(url)
+      .delete(url,config)
       .then((response) => {
         const data = response.data.data;
         return { data: { ...data, id: data._id } };
@@ -46,7 +51,7 @@ const dataProvider = {
   getList: (resource, params) => {
     const url = `${baseUrl}/${resource}`;
     return axios
-      .get(url)
+      .get(url,config)
       .then((response) => {
         // first data for body second data is for data which we return
         console.log(response.data);
@@ -66,7 +71,7 @@ const dataProvider = {
   getMany: (resource, params) => {
     const url = `${baseUrl}/${resource}`;
     return axios
-      .get(url)
+      .get(url,config)
       .then((response) => {
         // first data for body second data is for data which we return
         console.log(response.data);
@@ -86,7 +91,7 @@ const dataProvider = {
   getOne: (resource, params) => {
     const url = `${baseUrl}/${resource}/${params.id}`;
     return axios
-      .get(url)
+      .get(url,config)
       .then((response) => {
         // first data for body second data is for data which we return
         console.log(response.data);

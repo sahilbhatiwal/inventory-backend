@@ -9,9 +9,16 @@ exports.addReport = async (req, res) => {
   try {
     if (!user || !testsPerformed)
       throw new Error("please add user or testsPerformed");
+
+      let dbUser = await userModel.findById(user);
+
+      if(!dbUser)
+      throw new Error("invalid user id");
     // const reportToAdd = { user, testsPerformed };
     // const data = await reportModel.create(reportToAdd);
     const data = await reportModel.create({ user, testsPerformed });
+    await dbUser.reports.push(data._id);
+    await dbUser.save();
     res.status(200).json({
       success: true,
       data: data,
