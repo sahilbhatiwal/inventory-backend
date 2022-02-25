@@ -11,6 +11,7 @@ exports.addUser = async (req, res) => {
     const userToAdd = { name, age, phone, email, password };
     console.log(userToAdd);
     const data = await userModel.create(userToAdd);
+    data.password = undefined;
     res.status(200).json({
       success: true,
       message: "user added successfully",

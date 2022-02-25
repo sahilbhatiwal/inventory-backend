@@ -3,19 +3,7 @@ const TestModel = require("../models/test");
 // add test
 exports.addTest = async (req, res) => {
   const { name, chemicalsRequired, price } = req.body;
-  // if (!name || !chemicalsRequired) {
-  //   return res.status(400).json({
-  //     success: false,
-  //     message: "please add name and chemical req",
-  //   });
-  // }
-  // if (chemicalsRequired.length == 0) {
-  //   return res.status(400).json({
-  //     success: false,
-  //     message: "please add atleast one chemical",
-  //   });
-  // }
-  // const testToAdd = { name, chemicalsRequired };
+  
   try {
     if (!name || !chemicalsRequired || !price) {
       throw new Error("name and chemicals and price are required");

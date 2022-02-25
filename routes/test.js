@@ -5,7 +5,6 @@ const router = express.Router();
 
 //get all
 router.get("/test",getAllTest);
-router.get("/testfull",getAllTestWithChemical);
 router.get("/test/:id",getTestById);
 router.delete("/test/:id", isAuthenticated, deleteTest);
 router.put("/test/:id", isAuthenticated, updateTest);

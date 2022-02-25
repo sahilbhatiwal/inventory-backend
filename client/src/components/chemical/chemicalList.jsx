@@ -6,8 +6,6 @@ export default function chemicalList(props) {
       <Datagrid>
         <TextField source="name" />
         <TextField source="quantity" />
-        {/* <TextField source="createdAt" />
-        <TextField source="updatedAt" /> */}
         <EditButton basePath="/chemical" />
         <DeleteButton basePath="/chemical"/>
         <ShowButton basePath="/chemical"/>

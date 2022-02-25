@@ -1,23 +1,6 @@
 // import chemical model
 const Chemical = require("../models/chemical");
 
-// get all chemicals
-// const getChemicals =  (req, res) => {
-//   Chemical.find()
-//     .then((data) => {
-//       res.status(200).json({
-//         success: true,
-//         data: data,
-//       });
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//       res.status(400).json({
-//         success: false,
-//         message: `there was some error : ${err.message}`,
-//       });
-//     });
-// };
 const getChemicals = async (req, res) => {
   try {
     const data = await Chemical.find();
@@ -42,7 +25,6 @@ const getChemicalbyId = async (req, res) => {
   const id = req.params.id;
   try {
     const data = await Chemical.findById(id);
-
     if (!data) {
       throw new Error("id does not exist");
     }
@@ -118,32 +100,27 @@ function deleteChemicalbyId(req, res) {
 // add a chemial
 const addChemical = async (req, res) => {
   // get chemicaldetail form body
-  const { name, quantity } = req.body;
-
-  if (!name || !quantity) {
-    return res.status(400).json({
+  try {
+    const { name, quantity } = req.body;
+    if (!name || !quantity) {
+      throw new Error("please add name and quantity");
+    }
+    const data = await Chemical.create({
+      name,
+      quantity,
+    });
+    res.status(200).json({
+      success: true,
+      message: "Chemical added",
+      data: data,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
       success: false,
-      message: "please send name and quantity",
+      message: `there was some error : ${err.message}`,
     });
   }
-  await Chemical.create({
-    name,
-    quantity,
-  })
-    .then((data) => {
-      res.status(200).json({
-        success: true,
-        message: "Chemical added",
-        data: data,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(400).json({
-        success: false,
-        message: `there was some error : ${err.message}`,
-      });
-    });
 };
 
 // export the controllers

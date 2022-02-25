@@ -2,7 +2,6 @@ const {
   addUser,
   getAllUsers,
   updateUser,
-  deleteUser,
   getUserId,
   login,
 } = require("../controllers/user");

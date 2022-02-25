@@ -1,16 +1,10 @@
 
 import React from 'react';
 import {
-  List,
-  Datagrid,
   Edit,
-  Create,
   SimpleForm,
-  DateField,
   TextField,
-  EditButton,
   TextInput,
-  DateInput,
 } from "react-admin";
 export default function updateChemical(props) {
   return (

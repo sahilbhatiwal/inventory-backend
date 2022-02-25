@@ -2,9 +2,9 @@ const jwt = require("jsonwebtoken");
 const userModel = require("../models/user");
 exports.isAuthenticated = async (req, res, next) => {
   try {
-
     // get bearer token
-    let token = req.cookies.token||req.header("Authorization")?.replace("Bearer ","");
+    let token =
+      req.cookies.token || req.header("Authorization")?.replace("Bearer ", "");
     if (!token) throw new Error("Token Missing");
 
     const decoded = await jwt.verify(token, process.env.JWT_SECRET);

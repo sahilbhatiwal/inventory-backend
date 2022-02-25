@@ -8,7 +8,6 @@ const cookieParser = require("cookie-parser");
 
 require("./config/db");
 // import all the routes
-// const learningRoutes = require("./routes/learningroutes");
 const chemicalRoutes = require("./routes/chemical");
 const testRoutes = require("./routes/test");
 const userRoutes = require("./routes/user");
@@ -16,11 +15,10 @@ const reportRoutes = require("./routes/report");
 
 // middlewares
 app.use(cors());
-app.use(express.json());
+app.use(express.json());//bodyparser
 app.use(cookieParser());
 
 // routes
-// app.use("/api", learningRoutes);
 app.use("/api", chemicalRoutes);
 app.use("/api",testRoutes);
 app.use("/api",userRoutes);
