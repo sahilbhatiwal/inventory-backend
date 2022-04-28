@@ -1,6 +1,6 @@
 const { HttpError } = require("react-admin");
 const axios = require("axios");
-const baseUrl = "http://health-in-one.herokuapp.com/api";
+const baseUrl = "https://health-in-one.herokuapp.com/api";
 
 const authProvider = {
   // authentication
