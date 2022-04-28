@@ -15,23 +15,20 @@ const userSchema = new mongoose.Schema(
     phone: {
       type: String,
       required: true,
-      unique:true,
-      minlength:10,
-      maxlength:10
+      unique: true,
+      minlength: 10,
+      maxlength: 10,
     },
-    email:{
+    email: {
       type: String,
-      required:  true,
+      required: true,
       unique: true,
     },
-    reports:[
-      
-    ],
-    password:{
-
+    reports: [],
+    password: {
       // select: false,
       type: String,
-      minlength:8,
+      minlength: 8,
       required: true,
     },
   },
@@ -41,35 +38,28 @@ const userSchema = new mongoose.Schema(
 );
 
 // encrypt password before save
-userSchema.pre("save",async function(next){
-
+userSchema.pre("save", async function (next) {
   // if any thing changes in user then password doesnt not get encrypted again ( double encryption)
-  if (!this.isModified("password")) return next();  
-  
+  if (!this.isModified("password")) return next();
+
   console.log(this.password);
   console.log(this.name);
-  this.password = await bcrypt.hash(this.password,12);
+  this.password = await bcrypt.hash(this.password, 12);
   next();
-  
-})
+});
 
-// check if password is valid or not 
-userSchema.methods.authenticate = async function (password){
-  
+// check if password is valid or not
+userSchema.methods.authenticate = async function (password) {
   // await this.select('+password').exec();
   console.log(this.password);
-  return await bcrypt.compare(password,this.password);
-}
+  return await bcrypt.compare(password, this.password);
+};
 
 // generate jwt token
-userSchema.methods.generateJWTToken = async function (){
-
+userSchema.methods.generateJWTToken = async function () {
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.EXPIRESIN,
   });
+};
 
-}
-// const chemicalModel = mongoose.model('Chemical',chemicalSchema);
-// module.exports = chemicalModel;
-//or
 module.exports = mongoose.model("User", userSchema);

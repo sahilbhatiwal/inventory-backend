@@ -52,7 +52,6 @@ exports.getAllReports = (req, res) => {
 };
 
 // get user by id
-
 exports.getReportbyId = (req, res) => {
   const id = req.params.id;
   reportModel

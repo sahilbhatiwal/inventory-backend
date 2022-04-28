@@ -2,12 +2,9 @@ import React from "react";
 import {
   Create,
   SimpleForm,
-  TextInput,
   ReferenceInput,
-  ReferenceArrayInput,
   required,
   ArrayInput,
-  SelectArrayInput,
   SimpleFormIterator,
   SelectInput,
 } from "react-admin";

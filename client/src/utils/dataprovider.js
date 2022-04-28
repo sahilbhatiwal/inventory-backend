@@ -5,7 +5,7 @@ const config = {
     Authorization: "Bearer " + localStorage.getItem("jwt"),
   },
 };
-const baseUrl = "/api";
+const baseUrl = "http://health-in-one.herokuapp.com/api";
 const dataProvider = {
   create: (resource, params) => {
     const url = `${baseUrl}/${resource}`;
